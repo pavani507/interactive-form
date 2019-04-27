@@ -22,10 +22,7 @@ otherTitle.hide();
 $(title).change(function() {
   var $option = $(this).find("option:selected");
   otherTitle.hide();
-  var value = $option.val();
-  console.log(value);
   var text = $option.text();
-  console.log(text);
   if (text === "Other") {
     otherTitle.show();
   }
@@ -34,7 +31,6 @@ $(title).change(function() {
 $(design).change(function() {
   var $option = $(this).find("option:selected");
   var text = $option.text();
-  console.log(text);
 
   if (/JS Puns/.test(text)) {
     $("#color").show();
@@ -50,6 +46,7 @@ $(design).change(function() {
   }
 });
 
+//Change
 function changeColorText(text) {
   $("#colors-js-puns label").text(text);
 }
