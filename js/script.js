@@ -46,11 +46,11 @@ $(design).change(function() {
   }
 });
 
-//Change
 function changeColorText(text) {
   $("#colors-js-puns label").text(text);
 }
 function matchColor(text) {
+  let isFirst = true;
   $(color).each(function(index, item) {
     const t = $(item).text();
 
@@ -58,16 +58,31 @@ function matchColor(text) {
     if (text == "JS Puns") {
       if (!/JS Puns/.test(t)) {
         $(item).hide();
+        $(item).attr("selected", false);
       } else {
+        if (isFirst) {
+          $(item).attr("selected", true);
+          isFirst = false;
+        } else {
+          $(item).attr("selected", false);
+        }
         $(item).show();
       }
     } else if (text == "I") {
       if (!/I/.test(t)) {
         $(item).hide();
+        $(item).attr("selected", false);
       } else {
+        if (isFirst) {
+          $(item).attr("selected", true);
+          isFirst = false;
+        } else {
+          $(item).attr("selected", false);
+        }
         $(item).show();
       }
     } else if (text == "Select Theme") {
+      $(item).attr("selected", false);
       changeColorText("Please select a T-shirt theme:");
     }
   });
@@ -144,7 +159,7 @@ function enableCheckbox(s, i) {
     let str = sl.replace(/\s/g, "");
     if (i !== index) {
       if (s === str) {
-        $(this).css({ color: "#00000" });
+        $(this).css({ color: "#000" });
         $(c).attr("disabled", false);
       }
     }
