@@ -194,7 +194,7 @@ $("#payment").change(function() {
   } else if (paymentOption == "select_method") {
     $("#paypal").hide();
     $("#bitcoin").hide();
-    $("#credit-card").show();
+    $("#credit-card").hide();
   }
 });
 // Get the  information from credit card input fields.
@@ -305,7 +305,24 @@ function isChecked() {
   }
 }
 
-function onSubmit() {
+$("form").submit(function(event) {
+  event.preventDefault();
+  let isValid = true;
+  validator(is_name, uName, inputName);
+  validator(is_email, email, inputEmail);
+  isValid = isValid && uName;
+  isValid = isValid && email;
+  const isCheckedValid = isChecked();
+  isValid = isValid && isCheckedValid;
+  const isPaymentValid = paymentValidation();
+  isValid = isValid && isPaymentValid;
+});
+
+$("#register").click(function() {
+  $("form").submit();
+});
+
+/*function onSubmit() {
   let isValid = true;
   validator(is_name, uName, inputName);
   validator(is_email, email, inputEmail);
@@ -316,4 +333,4 @@ function onSubmit() {
   const isPaymentValid = paymentValidation();
   isValid = isValid && isPaymentValid;
   return isValid;
-}
+}*/
