@@ -165,14 +165,10 @@ function enableCheckbox(s, i) {
     }
   });
 }
-//The "Credit Card" payment option should be selected by default.
-$(payment).each(function() {
-  if ($(this).val() == "credit card") {
-    $(this).attr("selected", "selected");
-    $("#paypal").hide();
-    $("#bitcoin").hide();
-  }
-});
+//
+$(payment)
+  .eq(1)
+  .attr("selected", "selected");
 //Display payment sections based on the payment option chosen in the select menu. And remaining are hide except selected option
 let paymentOption = "credit card";
 
@@ -203,12 +199,27 @@ let zipNo = " ";
 let cvvNo = " ";
 $("#cc-num").on("input", function() {
   creditCardNo = $(this).val();
+  if (/\b\d{13,16}\b/.test(creditCardNo)) {
+    $("#cc-num").css({ border: "2px solid #c1deeb" });
+  } else {
+    $("#cc-num").css({ border: "2px solid red" });
+  }
 });
 $("#zip").on("input", function() {
   zipNo = $(this).val();
+  if (/^(\d{5})$/.test(zipNo)) {
+    $("#zip").css({ border: "2px solid #c1deeb" });
+  } else {
+    $("#zip").css({ border: "2px solid red" });
+  }
 });
 $("#cvv").on("input", function() {
   cvvNo = $(this).val();
+  if (/^(\d{3})$/.test(cvvNo)) {
+    $("#cvv").css({ border: "2px solid #c1deeb" });
+  } else {
+    $("#cvv").css({ border: "2px solid red" });
+  }
 });
 
 // Credit Card  Information validation like Credit Card number, a Zip Code, and a 3 number CVV value.
@@ -218,17 +229,11 @@ function paymentValidation() {
   let cvv = $("#cvv");
 
   if (paymentOption == "select_method") {
-    ccn.prev().css({ color: "red" });
-    zip.prev().css({ color: "red" });
-    cvv.prev().css({ color: "red" });
     return false;
   } else if (paymentOption == "credit card") {
     let CRDV = true;
     let ZIP = true;
     let CVV = true;
-    ccn.prev().css({ color: "black" });
-    zip.prev().css({ color: "black" });
-    cvv.prev().css({ color: "black" });
 
     if (!creditCardNo || !/\b\d{13,16}\b/.test(creditCardNo)) {
       ccn.css({ border: "2px solid red" });
@@ -306,7 +311,6 @@ function isChecked() {
 }
 
 $("form").submit(function(event) {
-  event.preventDefault();
   let isValid = true;
   validator(is_name, uName, inputName);
   validator(is_email, email, inputEmail);
@@ -316,11 +320,14 @@ $("form").submit(function(event) {
   isValid = isValid && isCheckedValid;
   const isPaymentValid = paymentValidation();
   isValid = isValid && isPaymentValid;
+  if (!isValid) {
+    event.preventDefault();
+  }
 });
 
-$("#register").click(function() {
-  $("form").submit();
-});
+// $("#register").click(function() {
+//   $("form").submit();
+// });
 
 /*function onSubmit() {
   let isValid = true;
